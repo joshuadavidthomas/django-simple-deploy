@@ -20,11 +20,10 @@ markdown_extensions:
   - def_list
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
   - footnotes
 
 plugins:
-- mkdocstrings
+  - mkdocstrings
 
 nav:
   - 'Introduction': 'index.md'
@@ -44,6 +43,7 @@ nav:
     - 'Coding Guide': 'contributing/coding_guide.md'
     - 'Architecture Notes': 'contributing/architecture_notes.md'
     - 'Parking Lot': 'contributing/parking_lot.md'
+    - 'Code of Conduct': 'contributing/code_of_conduct.md'
   - 'Plugins':
     - 'plugins/index.md'
     - 'plugins/plugin_utils.md'
@@ -64,10 +64,8 @@ nav:
     - 'Managing Releases': 'maintaining/managing_releases.md'
     - 'Updating Documentation': 'maintaining/updating_docs.md'
     - 'Architectural Design Record': 'maintaining/adr.md'
-  - 'Roadmap':
-    - 'roadmap/index.md'
-    - 'roadmap/reaching_one_point_o.md'    
-    
+  - 'Roadmap': 'roadmap/index.md'
+  - 'Announcements': 'announcements/index.md'
 
 
 theme: 

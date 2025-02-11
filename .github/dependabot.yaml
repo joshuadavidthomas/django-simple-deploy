@@ -1,0 +1,23 @@
+# Dependabot config has not been straightforward. I want alerts, but not PRs.
+# Normally, that's done by enabling alerts and disabling security updates in the
+# UI. However, that will cause alets to show up for things like reference files.
+# We need this config file to avoid alerts about the sample project and tests.
+#
+# If you see a better way to address this, please feel free to share.
+
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 0
+
+  # Reduce frequency of alerts about sample project and reference files?
+  - package-ecosystem: "pip"
+    directories:
+      - "/sample_project"
+      - "/tests"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 0

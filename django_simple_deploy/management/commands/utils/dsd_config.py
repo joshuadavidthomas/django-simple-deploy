@@ -2,23 +2,26 @@ from .command_errors import DSDCommandError
 
 
 class DSDConfig:
-    """Class for managing attributes of Command that need to be shared with plugins.
+    """Class for managing attributes of `Command` that need to be shared with plugins.
 
-    This is instantiated once at the module level in plugin_utils. That instance is
-    imported into deploy.py, where Command defines all relevant attributes, and
-    calls validate().
+    This is instantiated once at the module level in `plugin_utils`. That instance is
+    imported into `deploy.py`, where `Command` defines all relevant attributes, and
+    calls `validate()`.
 
-    Plugins then import the dsd_config instance from plugin_utils. If mutability is an
-    issue, or if multiple instances of SDConfig are being created, consider making this
+    Plugins then import the `dsd_config` instance from `plugin_utils`. If mutability is an
+    issue, or if multiple instances of `DSDConfig` are being created, consider making this
     a singleton class.
 
-    No module other than plugin_utils should import this class directly, or otherwise
-    make an instance of this class. All access should happen through the dsd_config
-    variable in plugin_utils.
+    No module other than `plugin_utils` should import this class directly, or otherwise
+    make an instance of this class. All access should happen through the `dsd_config`
+    variable in `plugin_utils`.
     """
 
     def __init__(self):
         """Define all attributes that will need to be shared."""
+        # Version of the currently installed version of django-simple-deploy.
+        self.version = None
+
         # Aspects of user's system.
         self.on_windows = None
         self.on_macos = None
@@ -51,6 +54,10 @@ class DSDConfig:
 
     def validate(self):
         """Make sure all required attributes have been defined."""
+        if not self.version:
+            msg = "Could not identify version of django-simple-deploy in use."
+            raise DSDCommandError(msg)
+
         if not self.pkg_manager:
             msg = "Could not identify dependency management system in use."
             raise DSDCommandError(msg)

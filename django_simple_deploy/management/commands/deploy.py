@@ -1,6 +1,6 @@
 """Manage deployement to a variety of platforms.
 
-Configuration-only mode: 
+Configuration-only mode:
     $ python manage.py deploy
     Configures project for deployment to the specified platform.
 
@@ -11,7 +11,7 @@ Automated mode:
 
 Overview:
     This is the command that's called to manage the configuration. In the automated
-    mode, it also makes the actual deployment. The entire process is coordinated in 
+    mode, it also makes the actual deployment. The entire process is coordinated in
     handle():
     - Parse the CLI options that were passed.
     - Start logging, unless suppressed.
@@ -29,6 +29,7 @@ import sys, os, platform, re, subprocess, logging, shlex
 from datetime import datetime
 from pathlib import Path
 from importlib import import_module
+from importlib.metadata import version
 
 from django.core.management.base import BaseCommand
 from django.conf import settings
@@ -119,6 +120,9 @@ class Command(BaseCommand):
             self._log_cli_args(options)
 
         self._validate_command()
+
+        # Get installed version.
+        dsd_config.version = version("django-simple-deploy")
 
         # Import the platform-specific plugin module. This performs some validation, so
         # it's best to call this before modifying project in any way.
@@ -494,7 +498,8 @@ class Command(BaseCommand):
         """
         msg = "\nLooking for django-simple-deploy in requirements..."
         plugin_utils.write_output(msg)
-        plugin_utils.add_package("django-simple-deploy")
+        version_string = f"=={dsd_config.version}"
+        plugin_utils.add_package("django-simple-deploy", version=version_string)
 
     def _validate_plugin(self, pm):
         """Check that all required hooks are implemeted by plugin.

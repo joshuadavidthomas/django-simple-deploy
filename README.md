@@ -22,4 +22,4 @@ The above command will deploy your project to Fly.io. To deploy to another platf
 $ pip install "django-simple-deploy[platform_sh]"
 ```
 
-All output is captured and written to a log file stored in `simple_deploy_logs/`, which is placed at the project's root directory.
+All output is captured and written to a log file stored in `dsd_logs/`, which is placed at the project's root directory.

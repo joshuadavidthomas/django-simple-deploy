@@ -3,8 +3,55 @@ Changelog: django-simple-deploy
 
 For inspiration and motivation, see [Keep a CHANGELOG](https://keepachangelog.com/en/0.3.0/).
 
+1.0 - Stable release
+---
+
+This release will have a stable public interface for end users, and for plugin developers as well. The project will continue to be refined internally and may gain some new features, but will have overall stability as a high priority.
+
+### (Unreleased)
+
+#### External changes
+
+- Added docs/announcements section, with 1.0 release announcement.
+
+#### Internal changes
+
+- Update docs/requirements.txt, and readthedocs.yml to fix issue when building docs.
+
+
+### 1.0.0 - Stable release
+
+#### External changes
+
+- Updated main image and name of log directory in main README.
+- Updated roadmap for post-1.0 phase of development.
+
+#### Internal changes
+
+- Uses a cross-platform approach to identifying which plugin is being tested.
+- Added windows-compatible dependencies to vendor/ for integration tests. All tests pass on Windows.
+- Updated core tests for Linux as well.
+- Implements CI testing for Python 3.12 on macOS, Linux, and Windows.
+- Updated requirements.txt, for dev work.
+- Run CI testing on direct push to main.
+- Add dependabot config.
+  - Daily for main requirements.
+  - Monthly for sample_project and tests/, until tests refactored to pull version from sample_project/.
+
+
 0.9 - Simplified usage
 ---
+
+### 0.9.4
+
+#### External changes
+
+- When adding `django-simple-deploy` as a dependency of the user's project, specifies the currently-installed version of `django-simple-deploy`. This makes sure the version installed on the host platform matches the version the user has installed locally. This makes testing more reliable, and should be the behavior that users would expect.
+
+#### Internal changes
+
+- `plugin_utils.check_reference_file()` accepts an absolute path to a reference file, and a context dictionary for dynamic reference files.
+- Provides a fixture, `dsd_version`, for getting the version of `django-simple-deploy` that's being used during testing.
 
 ### 0.9.3
 

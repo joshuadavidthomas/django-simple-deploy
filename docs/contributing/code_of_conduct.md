@@ -1,3 +1,9 @@
+---
+title: "Code of Conduct"
+hide:
+    - footer
+---
+
 
 # Contributor Covenant Code of Conduct
 
@@ -7,7 +13,7 @@ It's easy to copy a well-established, commonly used Code of Conduct into a proje
 
 A Code of Conduct is only meaningful when the community around a project actually shares the values represented in the code, and the community leaders are willing and able to maintain the standards represented in the CoC. I have been a member of many communities, in person and online, for decades. I spent the bulk of my teaching career working in schools with strong restorative practices and restorative justice models. I do not enjoy conflict, but I also have no problem addressing conflict when it inevitably arises.
 
-That said, this is the kind of project that is likely to almost exclusively attract people who are clearly committed to helping others. So welcome to the community, and please help make it a healthy, welcoming, and respectful one.
+That said, this is the kind of project that's likely to almost exclusively attract people who are clearly committed to helping others. So welcome to the community, and please help make it a healthy, welcoming, and respectful one.
 
 \- Eric
 

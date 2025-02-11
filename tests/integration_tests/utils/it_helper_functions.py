@@ -21,14 +21,27 @@ from django_simple_deploy.management.commands.utils.command_errors import (
 )
 
 
-def check_reference_file(tmp_proj_dir, filepath, plugin_name="", reference_filename=""):
+def check_reference_file(
+    tmp_proj_dir,
+    filepath,
+    plugin_name="",
+    reference_filename="",
+    reference_filepath=None,
+    context=None,
+    tmp_path=None,
+):
     """Check that the test version of the file matches the reference version
     of the file.
 
     - filepath: relative path from tmp_proj_dir to test file
     - reference_filename: the name of the  reference file, if it has a
       different name than the generated file
+    - reference_filepath: absolute path to reference file
     - plugin_name: used to find the path to reference files.
+    - context: used to fill in placeholders in the reference file; reference file is not modified
+    - tmp_path: If a context is provided, also provide a tmp path where the generated reference file
+      can be stored. This approach means it will be a pytest-generated path, which can be found in a way
+      that's consistent with other tmp files generated during testing.
 
     Asserts:
     - Asserts that the file at `filepath` matches the reference file of the
@@ -56,7 +69,9 @@ def check_reference_file(tmp_proj_dir, filepath, plugin_name="", reference_filen
 
     # Only plugins use reference files for now. Assume plugin dir is in same directory as
     # django-simple-deploy.
-    if plugin_name:
+    if reference_filepath:
+        fp_reference = reference_filepath
+    elif plugin_name:
         plugin_root_dir = sd_root_dir.parent / plugin_name
         assert plugin_root_dir.exists()
 
@@ -64,6 +79,16 @@ def check_reference_file(tmp_proj_dir, filepath, plugin_name="", reference_filen
             plugin_root_dir / f"tests/integration_tests/reference_files/{filename}"
         )
         assert fp_reference.exists()
+
+    # If caller has provided a context, use it to generate a temp reference file with placeholders
+    # filled in.
+    if context:
+        contents = fp_reference.read_text()
+        for placeholder, replacement in context.items():
+            contents = contents.replace(f"{{{placeholder}}}", replacement)
+
+        fp_reference = tmp_path / filename
+        fp_reference.write_text(contents)
 
     # The test file and reference file will always have different modified
     #   timestamps, so no need to use default shallow=True.

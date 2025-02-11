@@ -3,6 +3,7 @@
 import subprocess, re, sys, os, tempfile
 from pathlib import Path
 from time import sleep
+from importlib.metadata import version
 
 import pytest
 
@@ -145,8 +146,11 @@ def run_dsd(reset_test_project, tmp_project, request):
     # and if there's more we probably want the last one in the path. plugin_names
     # should probably be path_parts or something like that. Also, consider refactoring
     # this into a test utility function; see similar block in e2e conftest.
-    module_path = request.module.__file__
-    plugin_names = [name for name in module_path.split("/") if "dsd-" in name]
+    # DEV: Even worse is that the plugin name identified here is used in call_deploy()
+    #   to decide whether to add a --deployed-project-name arg to the call. That should
+    #   be decided by the plugin itself.
+    module_path = Path(request.module.__file__)
+    plugin_names = [name for name in module_path.parts if "dsd-" in name]
 
     if not plugin_names:
         # The currently running test module is not in a plugin repo, so it doesn't
@@ -168,3 +172,19 @@ def pkg_manager(request):
     - String representing package manager: req_txt | poetry | pipenv
     """
     return request.node.callspec.params.get("reset_test_project")
+
+
+@pytest.fixture(scope="session")
+def dsd_version():
+    """Get the version of django-simple-deploy that's being tested.
+
+    This is used to dynamically generate reference files which include a reference
+    to the current version. For example the `deploy` command adds a requirement like this:
+    django-simple-deploy==0.9.3
+
+    A static reference file doesn't work.
+
+    Returns:
+        Str: version of django-simple-deploy that's being tested.
+    """
+    return version("django-simple-deploy")

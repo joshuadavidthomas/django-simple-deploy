@@ -38,4 +38,4 @@ There are many ways to contribute. Choose the option that fits you best, and sta
 Code of Conduct
 ---
 
-`django-simple-deploy` operates under a clear [Code of Conduct](https://github.com/django-simple-deploy/django-simple-deploy/blob/main/old_docs/code_of_conduct.md).
+`django-simple-deploy` operates under a [Code of Conduct](code_of_conduct.md).
